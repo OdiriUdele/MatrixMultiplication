@@ -1,0 +1,49 @@
+/matrix:
+	post:
+		description: |
+			Returns an alpha representation of two matrices.
+		queryParameters:
+			firstMatrix:
+				type: json
+				example: |
+					{
+						[
+							[1,2,3,4,5],
+							[6,22,5,6,18]
+						]
+					},
+			secondMatrix:
+				type: json
+				example: |
+					{
+						[
+							[3,5,4],
+							[6,8,6],
+							[14,5,4],
+							[14,7,5],
+							[20,5,8],
+							[3,6,5]
+						]
+					}
+		responses:
+			200:
+				body:
+					application/json:
+						example: |
+							{
+								"result":"success",
+								"data": [
+									['AA','FF','XA'],
+									['C','G','KL']
+								]
+							}
+			422:
+				body:
+					application/json:
+						example: |
+							{
+								"result": "fail",
+								"errors": [
+									"firstMatrix" => ["The first matrix must not contain null or empty values."]
+								]
+							}
