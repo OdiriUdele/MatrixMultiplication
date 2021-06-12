@@ -1,62 +1,39 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## Project:2x2  Matrix Multiplication Parse Result to Alphabets.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a laravel application that takes some input from a POST endpoint and parses it into a matrix where the numeric values are its alphabetical representation (ie 1 => A, 28 => AC).  Tools Used:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Laravel Framework => ^8.40
+- Laravel tymon/jwt-auth=> "^1.0. (For Authentication)
+- Php => 7.4.15).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+I made use of Requests, a controller and a service.
 
-## Learning Laravel
+## Testing and Validation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Validation will check that the matrices follow the principle of A matrix columns equaling B matrix rows. If this validation fails an error is returned
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Testing will ensure the code is written to accomodate scenarios such as a matrix of unequal columns or rows. As well as input with alphanumeric characters as all input values should be numeric.
 
-## Laravel Sponsors
+## Setup
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Clone repo
+- Run composer intall/update
+- copy .env.example to .env
+- Run Php artisan key:generate
+- Run Php Artisan jwt:secret
+- Run Php Artisan migrate.
+## Test Setup
+- Run <b>php artisan config:cache</b>
+- Run <b>php artisan config:clear</b>
+- Run <b>touch database/Matrix_multiplication.sqlite </b> on git bash or create a file named <b>Matrix_multiplication.sqlite </b> in the database directory of the application.
+- Run <b> php artisan migrate --database=sqlite</b>
+- lastly run <b>php artisan config:cache --env=testing</b> and <b>php artisan config:clear</b> again.
 
-### Premium Partners
+## API Documentation
+This application at the time of this writing has some  endpoints for authentication and a single endpoint for  '/api/2by2matrix'. To view the parameter requirements and expected return values, check out matrix.raml(within the /docs directory). for more detailed documentation please visit the postman documenter url below.<br>
+**[Api Documentation Url ](https://documenter.getpostman.com/view/14675063/TzeTJVCc)**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
