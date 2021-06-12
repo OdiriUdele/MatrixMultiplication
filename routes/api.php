@@ -14,34 +14,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('Api')->group( function () {
+Route::middleware(['return-json'])->namespace('Api')->group( function () {
 
-    Route::group([
-        'prefix' => 'auth'
+        Route::group([
+            'prefix' => 'auth',
+        ], function () {
 
-    ], function () {
+            Route::post('login', 'AuthController@login');
+            Route::post('register', 'AuthController@register');
 
-        Route::post('login', 'AuthController@login');
-        Route::post('register', 'AuthController@register');
-
-    });
-    
-    Route::middleware([
-        'jwt.verify',
-        'jwt.auth'
-        ])->group( function ($router) {
-            
-        Route::get('user', 'AuthController@user');
-        
-        Route::post('auth/logout', 'AuthController@logout');
-
-        Route::post('refresh', 'AuthController@refresh');
-
-        
-        Route::namespace('Matrix')->group( function () {
-            Route::post('2by2matrix', 'MatrixController@TwoByTwoMatrixProduct');
         });
-    });
+        
+        Route::middleware([
+            'jwt.verify',
+            'jwt.auth'
+            ])->group( function ($router) {
+                
+            Route::get('user', 'AuthController@user');
+            
+            Route::post('auth/logout', 'AuthController@logout');
+
+            Route::post('refresh', 'AuthController@refresh');
+
+            
+            Route::namespace('Matrix')->group( function () {
+                Route::post('2by2matrix', 'MatrixController@TwoByTwoMatrixProduct'); //calculate matrix multiplication
+            });
+        
+        });
+
+
 
 });
 

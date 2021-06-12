@@ -40,7 +40,7 @@ class MatrixController extends Controller
 
             //validate the input
             $messages = array(
-                'secondMatrix.size' => 'The second matrix row count must match the first matrix column count'
+                'secondMatrix.size' => 'The second matrix row count must match the first matrix column count.'
             );
             $validator = Validator::make($request->all(), [
                             'secondMatrix' =>  "size:{$this->getFirstMatrixCount($request, 'firstMatrix')}"

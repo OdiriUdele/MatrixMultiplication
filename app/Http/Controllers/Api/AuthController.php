@@ -25,7 +25,7 @@ class AuthController extends Controller
     }
 
 
-    public function register  (RegisterRequest $request ){
+    public function register (RegisterRequest $request ){
 
         $credentials = request(['email', 'password']);
 
@@ -67,8 +67,8 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'invalid Login Details'], 401);
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'invalid Login Details. ','status'=>false], 401);
         }
 
         return $this->respondWithToken($token);
@@ -116,6 +116,7 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
+            'message'=>'Operation Success',
             'user'=>auth()->user(),
             'access_token' => $token,
             'token_type' => 'bearer',

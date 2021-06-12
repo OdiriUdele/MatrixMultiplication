@@ -5,16 +5,22 @@ namespace Tests\Feature\MatrixTest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+USE App\Models\User;
+use JWTAuth;
 
 class MatrixMultiplicationTest extends TestCase
 {
-   /**
+	
+	use RefreshDatabase;
+
+    /**
 	 * Created data for different scenarios.
 	 * 
 	 * @return array
 	 */
 	public function matrixDataProvider(): array
 	{
+
 		return [
 			'unequal matrixA' => [
 				[
@@ -27,10 +33,9 @@ class MatrixMultiplicationTest extends TestCase
 				],
 				422,
 				[
-					'result' => 'fail',
+					'message' => 'The given data was invalid.',
 					'errors' => [
-						"firstMatrix" => ["The first matrix must not contain null or empty values."]],
-                    'status' =>  false
+						"firstMatrix" => ["The first matrix must not contain null or empty values."]]
 				]
 			],
 			'unequal matrixB' => [
@@ -45,9 +50,8 @@ class MatrixMultiplicationTest extends TestCase
 				],
 				422,
 				[
-					'result' => 'fail',
-					'errors' => ["secondMatrix" => ["The second matrix must not contain null or empty values."]],
-                    'status' =>  false
+					'message' => 'The given data was invalid.',
+					'errors' => ["secondMatrix" => ["The second matrix must not contain null or empty values."]]
 				]
 			],
 			'unequal row to col' => [
@@ -62,7 +66,7 @@ class MatrixMultiplicationTest extends TestCase
 				422,
 				[
 					'result' => 'fail',
-					'errors' => ['secondMatrix' => ["The second matrix must contain 4 items."]],
+					'errors' => ['secondMatrix' => ["The second matrix row count must match the first matrix column count."]],
                     'status' =>  false
 				]
 			],
@@ -78,27 +82,8 @@ class MatrixMultiplicationTest extends TestCase
 				],
 				422,
 				[
-					'result' => 'fail',
+					'message' => 'The given data was invalid.',
 					'errors' => ['firstMatrix' => ["The first matrix must only contain integers(whole numbers)."]],
-                    'status' =>  false
-				]
-			],
-			'out of range numeric values' => [
-				[
-					[400,30,6]
-				],
-				[
-					[70],
-					[7],
-					[6]
-				],
-				422,
-				[
-					'result' => 'fail',
-					'errors' => [
-						'firstMatrix' => ["The first matrix must only contain numbers between 1 and 26"],
-						'secondMatrix' => ["The second matrix must only contain numbers between 1 and 26"]
-					]
 				]
 			],
 			'small complete matrices' => [
@@ -112,17 +97,17 @@ class MatrixMultiplicationTest extends TestCase
 				200,
 				[
 					'result' => 'success',
-					'data' => [['KJ', 'GJ']],
+					'data' => [["KJ", "GJ"]],
                     'status' =>  true
 				]
 			],
 			'medium complete matrices' => [
 				[
-					[10,20,10,15],
+					[11,20,10,15],
 					[5,6,7,15]
 				],
 				[
-					[2,4],
+					[5,4],
 					[6,8],
 					[10,12],
 					[16,18]
@@ -130,7 +115,7 @@ class MatrixMultiplicationTest extends TestCase
 				200,
 				[
 					'result' => 'success',
-					'data' => [ ['RL', 'VR'], ['MR','PF']],
+					'data' => [ ['SU', 'VV'], ['NG','PF']],
                     'status' =>  true
 				]
 			]
@@ -157,16 +142,19 @@ class MatrixMultiplicationTest extends TestCase
 						int $status,
 						array $expected): void 
 	{
-		$response = $this->call('POST','/api/2by2matrix', [
+		$user = User::factory()->create();
+		$token = JWTAuth::fromUser($user);
+
+		$response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])->post('/api/2by2matrix', [
 				'firstMatrix' => $matrixA, 
 				'secondMatrix' => $matrixB 
-        ],
-        [
-            'Authorization' => 'Bearer '.$this->paystackkey
-            
         ]);
 
+		// \Log::info(json_encode($response));
+
 		   $this->assertEquals($status, $response->status());
-		   $this->seeJsonEquals($expected);
+		   $response->assertJson($expected);
 	}
 }
