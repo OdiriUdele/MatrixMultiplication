@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         $credentials = request(['email', 'password']);
 
-        try{
+        try {
             
             $request["password"] = bcrypt($request->password);
 
@@ -39,13 +39,13 @@ class AuthController extends Controller
 
             return response(["message"=>"Account created succesfully.","status" => true, "data" => $user, "token" => $token], 201);
             
-        }catch(Error $e){
+        } catch (Error $e) {
 
              \Log::info($e->getMessage());
 
             return response(["message" => "Something went wrong.", "status" => false], 500);
 
-        } catch(Exception $e){
+        } catch (Exception $e) {
 
              \Log::info($e->getMessage());
 

@@ -36,7 +36,13 @@ Route::namespace('Api')->group( function () {
         Route::post('auth/logout', 'AuthController@logout');
 
         Route::post('refresh', 'AuthController@refresh');
+
+        
+        Route::namespace('Matrix')->group( function () {
+            Route::post('2by2matrix', 'MatrixController@TwoByTwoMatrixProduct');
+        });
     });
+
 });
 
 
